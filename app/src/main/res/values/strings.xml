@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">KotlinTestApp</string>
+
+    <string name="password">Password</string>
+    <string name="user">User</string>
+    <string name="login">Login</string>
+    <string name="no_net_connection">No Internet Connection</string>
+
+    <string name="enter_email">Enter Email id</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="enter_email_id">Enter Email id</string>
+    <string name="invalid_email">Invalid Email</string>
+    <string name="password_does_not_match">Password does not Match</string>
+    <string name="title_activity_statement_list">Statements List</string>
+</resources>

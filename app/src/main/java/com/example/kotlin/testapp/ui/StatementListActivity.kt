@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin.testapp.R
 import com.example.kotlin.testapp.adapter.StatementListAdapter
+import com.example.kotlin.testapp.model.UserViewModelFactory
+import com.example.kotlin.testapp.network.response.Statement
 import com.example.kotlin.testapp.network.response.StatementResponse
 import com.example.kotlin.testapp.network.response.UserAccount
 import com.example.kotlin.testapp.utils.InjectorUtils
@@ -18,15 +20,21 @@ import com.example.kotlin.testapp.utils.Utils
 import com.example.kotlin.testapp.viewmodel.StatementsListViewModel
 
 import kotlinx.android.synthetic.main.activity_statement_list.*
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.kodein
+import org.kodein.di.generic.instance
+import retrofit2.Retrofit
 
 /**
  * Statement details List is displayed for authenticated User
  **/
-class StatementListActivity : AppCompatActivity() {
+class StatementListActivity : AppCompatActivity(), KodeinAware {
+
+    override val kodein by kodein()
+    private val factoryInstance: UserViewModelFactory by instance()
 
     private var adapter: StatementListAdapter? = null
     private lateinit var viewModel: StatementsListViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,22 +74,28 @@ class StatementListActivity : AppCompatActivity() {
     }
 
     private fun initializeViewModel() {
-        val factory = InjectorUtils.provideUserViewModelFactory(this.application)
-        viewModel = ViewModelProviders.of(this, factory).get(StatementsListViewModel::class.java)
+        //  val factory = InjectorUtils.provideUserViewModelFactory(this.application)
+        viewModel =
+            ViewModelProviders.of(this, factoryInstance).get(StatementsListViewModel::class.java)
     }
 
     /*
      * Observe the Statement List and set to the adapter
      * ***/
     private fun observeToFetchStatementsList() {
-        viewModel.observeStatementList().observe(this, Observer<StatementResponse> { statementResponse ->
-            if (statementResponse.statementList.isEmpty()) {
-                Toast.makeText(this@StatementListActivity, "Unbale to get Statement List", Toast.LENGTH_LONG).show()
-            } else {
-                adapter?.setStatementList(statementResponse.statementList)
-                progressBar.visibility = View.GONE
-            }
-        })
+        viewModel.observeStatementList()
+            .observe(this, Observer<StatementResponse> { statementResponse ->
+                if (statementResponse.statementList.isEmpty()) {
+                    Toast.makeText(
+                        this@StatementListActivity,
+                        "Unbale to get Statement List",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    adapter?.setStatementList(statementResponse.statementList)
+                    progressBar.visibility = View.GONE
+                }
+            })
     }
 
     /**

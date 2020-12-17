@@ -8,8 +8,8 @@ import com.example.kotlin.testapp.network.RetrofitClientInstance
 
 object InjectorUtils {
 
-    fun provideUserViewModelFactory(application: Application): UserViewModelFactory {
+   /* fun provideUserViewModelFactory(application: Application): UserViewModelFactory {
         Log.e("InjectorUtils", "provideUserViewModelFactory  Called")
         return UserViewModelFactory(application, UserRepository.getInstance(RetrofitClientInstance.getRetrofitClient()))
-    }
+    }*/
 }

@@ -15,7 +15,7 @@ import com.example.kotlin.testapp.network.response.UserAccount
     version = 2
 )
 abstract class UserDatabase : RoomDatabase() {
-/////////////////////////////////////////////////////////////////////////// added the change 1
+/////////////////////////////////////////////////////////////////////////// added the change 2
     init {
         Log.e(UserDatabase::class.java.name, "User Data base")
     }

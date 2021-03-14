@@ -9,6 +9,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.kotlin.testapp.model.UserRepository
 import com.example.kotlin.testapp.utils.Utils
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class LoginViewModel(application: Application, private val userRepository: UserRepository) :
     AndroidViewModel(application) {
@@ -40,7 +42,9 @@ class LoginViewModel(application: Application, private val userRepository: UserR
         if (validateInputs()) {
             if (Utils.isNetworkConnected(context)) {
                 getVisibility().value = 0 // show Progress Dialog
-                userRepository.loginUser(email.get(), password.get())
+                GlobalScope.launch {
+                    userRepository.loginUser(email.get(), password.get())
+                }
             } else {
                 mToastMessage.setValue("No Network Connection")
             }

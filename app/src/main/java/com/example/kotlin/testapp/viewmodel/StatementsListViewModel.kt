@@ -24,7 +24,9 @@ class StatementsListViewModel(
 
     fun observeStatementList() = userRepository.observeStatementList();
 
-    fun onLaunchPullStatementList(userAccount: UserAccount?) = userRepository.fetchStatementList(userAccount)
+    fun onLaunchPullStatementList(userAccount: UserAccount?) = GlobalScope.launch {
+        userRepository.fetchStatementList(userAccount)
+    }
 
 
 }

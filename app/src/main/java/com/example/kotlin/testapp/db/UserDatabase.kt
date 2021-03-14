@@ -41,6 +41,6 @@ abstract class UserDatabase : RoomDatabase() {
             Room.databaseBuilder(
                 context.applicationContext,
                 UserDatabase::class.java, "UserDB.db"
-            ).allowMainThreadQueries().build()
+            ).build()// .allowMainThreadQueries().build()
     }
 }
